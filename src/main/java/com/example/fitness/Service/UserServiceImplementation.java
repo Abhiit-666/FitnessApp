@@ -3,8 +3,8 @@ package com.example.fitness.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.Repository.LoginRepository;
 import com.example.fitness.Entity.User;
+import com.example.fitness.Repository.LoginRepository;
 import com.example.fitness.Entity.User;
 
 @Service
