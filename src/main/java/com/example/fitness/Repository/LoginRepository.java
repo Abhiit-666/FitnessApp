@@ -26,7 +26,7 @@ public class LoginRepository {
         String email=user.getEmail();
         String Pwd=user.getPassword();
 
-        String sql="Select cout(*) from User where email = ? and password = ?";
+        String sql="Select count(*) from user where email = :email and password = :password";
         Map<String, Object> params = new HashMap<>();
         params.put("email", email);
         params.put("password", Pwd);
@@ -45,7 +45,7 @@ public class LoginRepository {
 
     //Check if the new email used for creating account already has an account
     public Boolean checkUserPresent(String email){
-        String sql="Select cout (*) from User where email = ?";
+        String sql="Select count(*) from user where email=:email";
         Map<String, Object> param= new HashMap<>();
         param.put("email",email);
         NamedParameterJdbcTemplate namedParameterJdbcTemplate= new NamedParameterJdbcTemplate(jdbcTemplate);
@@ -66,7 +66,7 @@ public class LoginRepository {
         String goal=newuser.getGoal();
         String password=newuser.getPassword();
 
-        String sql="INSERT into User (email, userFirstName, userSecondName, age, height, weight, goal, password) VALUES(?,?,?,?,?,?,?,?)";
+        String sql="INSERT into user (email, user_first_name, user_second_name, age, height, weight, goal, password) VALUES(?,?,?,?,?,?,?,?)";
         
         try{
         jdbcTemplate.update(sql, email,FName,SName,age,height,weight,goal,password);

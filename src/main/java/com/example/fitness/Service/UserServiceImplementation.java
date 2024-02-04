@@ -30,10 +30,10 @@ public class UserServiceImplementation implements UserService{
     public String createNewUser(User newuser){
         if(!loginRepository.checkUserPresent(newuser.getEmail())){
             loginRepository.createNewUser(newuser);
+            return "New User Created";
         }
-        String email=newuser.getEmail();
 
-        return null;
+        return "Already and user, try to login";
     }
 
 
