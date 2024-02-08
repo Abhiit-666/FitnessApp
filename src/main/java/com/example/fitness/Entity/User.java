@@ -5,8 +5,11 @@ package com.example.fitness.Entity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 
-
+import java.util.*;
 
 @Entity
 public class User {
@@ -23,6 +26,13 @@ public class User {
     private String goal;
     private String password;
 
+    @ManyToMany
+    @JoinTable(
+        name="user_firends",//name of the join Table
+        joinColumns=@JoinColumn(name="user_id"),//User_id column
+        inverseJoinColumns = @JoinColumn(name="friend_id")// Column for the friends of the user
+    )
+    private List<User> friends;
     
 
     
