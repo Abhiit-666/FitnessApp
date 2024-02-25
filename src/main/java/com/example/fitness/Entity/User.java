@@ -3,6 +3,7 @@ package com.example.fitness.Entity;
 
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.JoinColumn;
@@ -28,13 +29,19 @@ public class User {
 
     @ManyToMany
     @JoinTable(
-        name="user_firends",//name of the join Table
+        name="user_friends",//name of the join Table
         joinColumns=@JoinColumn(name="user_id"),//User_id column
         inverseJoinColumns = @JoinColumn(name="friend_id")// Column for the friends of the user
     )
     private List<User> friends;
     
-
+    @ManyToMany(fetch= FetchType.EAGER)
+    @JoinTable(
+        name="user_roles", //name of table that stores the user and its roles
+        joinColumns = @JoinColumn(name= "user_id"),//entity owning the association
+        inverseJoinColumns = @JoinColumn(name="role_id") //entity on the other side of the association
+    )
+    private Set<Role> roles;
     
     
     /**
@@ -164,6 +171,35 @@ public class User {
      */
     public void setId(Long id) {
         this.id = id;
+    }
+
+
+    /**
+     * @return List<User> return the friends
+     */
+    public List<User> getFriends() {
+        return friends;
+    }
+
+    /**
+     * @param friends the friends to set
+     */
+    public void setFriends(List<User> friends) {
+        this.friends = friends;
+    }
+
+    /**
+     * @return Set<Role> return the roles
+     */
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    /**
+     * @param roles the roles to set
+     */
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
 }

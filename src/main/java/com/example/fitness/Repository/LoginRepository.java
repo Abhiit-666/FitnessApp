@@ -43,6 +43,22 @@ public class LoginRepository {
 
     }
 
+    //Get user by username
+    public User findByEmail(String username){
+        String sql="Select * from user where email= :email";
+        Map<String,Object> params =new HashMap<>();
+        params.put("email",username);
+
+        NamedParameterJdbcTemplate namedParameterJdbcTemplate=new NamedParameterJdbcTemplate(jdbcTemplate);
+        try{
+        User user=namedParameterJdbcTemplate.queryForObject(sql, params,User.class);
+        return user;
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     //Check if the new email used for creating account already has an account
     public Boolean checkUserPresent(String email){
         String sql="Select count(*) from user where email=:email";
