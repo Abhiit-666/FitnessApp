@@ -11,9 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.fitness.Entity.User;
 import com.example.fitness.Repository.LoginRepository;
-import com.example.fitness.Entity.User;
 
-import java.util.Collections;
 import java.util.stream.Collectors;
 
 @Service

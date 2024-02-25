@@ -24,7 +24,7 @@ public class SecurityConfig {
             .authorizeHttpRequests((authorize) -> authorize
                 .requestMatchers("/","/home").permitAll()
                 .anyRequest().authenticated())
-            .formLogin((formLogin)-> formLogin
+            .formLogin((formLogin)-> formLogin //Figure out how to make this an UI page
                 .loginPage("/login")
                 .permitAll())
             .logout((logout)->logout.permitAll())
