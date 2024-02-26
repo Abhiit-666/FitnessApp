@@ -24,12 +24,12 @@ public class UserServiceImplementation implements UserDetailsService{
         this.loginRepository=loginRepository;
     }
  
-   public String login(User user){
+   public Boolean login(User user){
         if(loginRepository.checkUserToLogin(user)){
-        return "Logged in";
+        return true;
         } 
         else{
-        return "User details Wrong";
+        return false;
         }
     }
 

@@ -1,6 +1,9 @@
 package com.example.fitness.Controller;
 
+import java.util.Collections;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -8,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.fitness.Entity.User;
+import com.example.fitness.Service.TokenServiceImplementation;
 import com.example.fitness.Service.UserServiceImplementation;
 
 import jakarta.el.ELException;
@@ -18,16 +22,27 @@ public class LoginController {
 
     @Autowired
     UserServiceImplementation userServiceImplementation;
+
+    @Autowired
+    TokenServiceImplementation tokenServiceImplementation;
     
-    LoginController(UserServiceImplementation userServiceImplementation){
+    LoginController(UserServiceImplementation userServiceImplementation, TokenServiceImplementation tokenServiceImplementation){
         this.userServiceImplementation=userServiceImplementation;
+        this.tokenServiceImplementation=tokenServiceImplementation;
     }
 
     @PostMapping("/login")
-    public User userlogin(@RequestBody User userinfo)
+    public ResponseEntity<?> userlogin(@RequestBody User userinfo)
     {
-        userServiceImplementation.login(userinfo);
-        return null;
+        boolean isAuthenticated= userServiceImplementation.login(userinfo);
+        if(isAuthenticated){
+            String sesToken= tokenServiceImplementation.generateToken(userinfo.getEmail());
+            return ResponseEntity.ok().body(Collections.singletonMap("token",sesToken));
+            //completion Required. 
+        }
+        else{
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");        }
+       
     }
     
     //The entity used here might be different
