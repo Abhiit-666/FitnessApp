@@ -46,6 +46,7 @@ public class UserServiceImplementation implements UserDetailsService{
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         // TODO Auto-generated method stub
         User user=loginRepository.findByEmail(username);
+            
         if(user == null){
             throw new UsernameNotFoundException("User not found with email: "+username);
         }
@@ -53,8 +54,11 @@ public class UserServiceImplementation implements UserDetailsService{
                             .map(role -> new SimpleGrantedAuthority(role.getName()))
                             .collect(Collectors.toSet());
         
-        return new org.springframework.security.core.userdetails.User(user.getEmail(),user.getPassword(),
-                                                                      authorities);
+        return org.springframework.security.core.userdetails.User.builder()
+            .username(user.getEmail())
+            .password(user.getPassword())
+            .authorities(authorities)
+            .build();
         
     }
 

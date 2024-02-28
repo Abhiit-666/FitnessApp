@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.fitness.Entity.User;
+import com.example.fitness.POJO.AuthenticationResponse;
 import com.example.fitness.Service.TokenServiceImplementation;
 import com.example.fitness.Service.UserServiceImplementation;
 import com.example.fitness.Utility.JwtUtil;
@@ -58,7 +59,7 @@ public class LoginController {
     // }
     
     @PostMapping("/login")
-    public ResponseEntity<?> userLogin(@RequestBody User userinfo) {
+    public ResponseEntity<?> userLogin(@RequestBody User userinfo) throws Exception {
         try{
             authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(userinfo.getEmail(), userinfo.getPassword())    
@@ -66,9 +67,14 @@ public class LoginController {
         }catch(BadCredentialsException e){
                 throw new Exception("Incorrect username or password",e);
             }
+
+
+            // Creating the jwt token For futher authorization after the user has been authenticated
+            final String jwt =jwtTokenUtil.generateToken(userinfo.getEmail());
+
+            return ResponseEntity.ok(new AuthenticationResponse(jwt));
         }
-        final String jwt =jwtTokenUtil.generateToken(userinfo.getEmail());
-    }
+    
     
 
 
